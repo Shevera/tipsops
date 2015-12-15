@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Tips and trics</title>
+<script  src="jquery/external/jquery/jquery.js"></script>
+<script  src="jquery_json/jquery.json.min.js"></script>
+
+<script type='text/javascript'>
+
+function click_button(){
+    var text = document.getElementById("textrea").value;
+    var select = document.getElementById("select").value;
+
+    var jsonString = {
+      "textarea": text,
+      "select": select
+    };
+
+    $.ajax({
+       type: "POST",
+       url: "get.php",
+       data: "first="+$('#textrea').val(),
+       dataType: "json",
+       success: function(data) {
+            console.log(data);
+       }
+    });
+
+
+}
+</script>
+
+</head>
+<body>
+
+<textarea id="textrea"></textarea>
+
+<select id="select">
+  <option value="text">text</option>
+  <option value="text_and_Code">text_and_Code</option>
+  <option value="header">header</option>
+  <option value="tips">tips</option>
+  <option value="attention">attention</option>
+  <option value="comparison">comparison</option>
+  <option value="ad_Unit">ad_Unit</option>
+</select>
+
+<button id="create" onclick="click_button()">Clik on me!</button>
+
+
+</body>
+</html>
