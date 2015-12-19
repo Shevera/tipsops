@@ -1,43 +1,59 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Tips and trics</title>
-<script  src="jquery/external/jquery/jquery.js"></script>
-<script  src="jquery_json/jquery.json.min.js"></script>
+    <script  src="jquery/external/jquery/jquery.js"></script>
+    <script  src="jquery_json/jquery.json.min.js"></script>
 
-<script type='text/javascript'>
+    <script type='text/javascript'>
 
 function click_button(){
     var text = document.getElementById("textrea").value;
     var select = document.getElementById("select").value;
 
-    var jsonString = {
-      "textarea": text,
-      "select": select
-    };
+    var jsonString = '{"textarea":'+ text + ',"select":'+ select+'}';
+    var tmp = JSON.stringify(jsonString);
 
     $.ajax({
        type: "POST",
        url: "get.php",
-       data: "first="+$('#textrea').val(),
-       dataType: "json",
+       data: {'categories' :tmp},
        success: function(data) {
-            console.log(data);
+            alert(data);
        }
     });
-
-
 }
+
+
+function send_to_server() {
+    var name = document.getElementById("IDtext");
+    var sename = document.getElementById("IDselect");
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'get.php', false);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send("IDtext="+name.value+"&IDselect="+sename.value);
+    if (xhr.status !=200)
+    {
+        alert('ошибка' + xhr.status + ':' + xhr.statusText);
+    }else{
+        var insert_request = document.getElementById("demo");
+        insert_request.innerHTML = xhr.responseText;
+
+    }
+}
+
 </script>
 
 </head>
 <body>
 
-<textarea id="textrea"></textarea>
+<form name="form" id="id_form" method="post">
 
-<select id="select">
+<input type="text" id="IDtext"  />
+
+<select id="IDselect" >
   <option value="text">text</option>
   <option value="text_and_Code">text_and_Code</option>
   <option value="header">header</option>
@@ -47,7 +63,15 @@ function click_button(){
   <option value="ad_Unit">ad_Unit</option>
 </select>
 
-<button id="create" onclick="click_button()">Clik on me!</button>
+<button type="button" id="id_submit_form" onclick="send_to_server()">Clik on me!</button>
+
+</form>
+
+<div id="demo"><h2>Let AJAX change this text</h2></div>
+
+<script>
+
+</script>
 
 
 </body>
